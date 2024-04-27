@@ -19,26 +19,28 @@ function Carousel(){
     autoplaySpeed: 2000,
   };
   return(
-    <Slider {...settings}>
-      <div>
-        <img src={summer} alt="" />
-      </div>
-      <div>
-        <img src={Ac} alt="" />
-      </div>
-      <div>
-        <img src={apple} alt="" />
-      </div>
-      <div>
-        <img src={laptop} alt="" />
-      </div>
-      <div>
-        <img src={oneplus} alt="" />
-      </div>
-      <div>
-        <img src={jioAirFiber} alt="" />
-      </div> 
-    </Slider>
+    <div className="" style={{marginTop:'7.9%'}}>
+      <Slider {...settings} >
+        <div>
+          <img src={summer} alt="" />
+        </div>
+        <div>
+          <img src={Ac} alt="" />
+        </div>
+        <div>
+          <img src={apple} alt="" />
+        </div>
+        <div>
+          <img src={laptop} alt="" />
+        </div>
+        <div>
+          <img src={oneplus} alt="" />
+        </div>
+        <div>
+          <img src={jioAirFiber} alt="" />
+        </div> 
+      </Slider>
+    </div>
   )
 }
 
