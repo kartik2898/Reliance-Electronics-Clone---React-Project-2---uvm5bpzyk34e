@@ -1,15 +1,17 @@
 import img from "../../Assets/LoginWebBanner.avif"
+import { useContext } from "react";
 import { useFormik } from 'formik';
 import { Link, useNavigate } from "react-router-dom";
 import * as yup from 'yup';
 import AuthService from "../../service/AuthService";
-function Login(){
+import { UserContext } from "../../contexts/user-context"
 
+function Login(){
     const validationLoginSchema = yup.object({
         email:yup.string().email("The email address you entered is not valid.").required("email is required"),
         password:yup.string().min(5, 'Password should be of minimum 5 characters length').required('Password is required').trim()
     });
-
+    const {setUserDetail} = useContext(UserContext);
     const navigate = useNavigate();
     const formik = useFormik({
         initialValues: {
@@ -19,7 +21,6 @@ function Login(){
         validationSchema: validationLoginSchema,
         onSubmit: (values,action) => {
             console.log(values);
-            
             handleLogin(values)
             action.resetForm();
         },
@@ -29,8 +30,8 @@ function Login(){
         AuthService.login(values.email, values.password).then((res) => {
             localStorage.setItem('userDetail', JSON.stringify(res?.data?.data))
             localStorage.setItem('token', res?.data?.token)
-            localStorage.getItem("userDetail");
-            console.log(localStorage.getItem("userDetail"))
+            setUserDetail(res.data.data)
+            // console.log(localStorage.getItem("userDetail"))
             setTimeout(() => {
                 navigate('/home');
             }, 100);
@@ -80,7 +81,6 @@ function Login(){
                                 </button>
                                 <div className="flex gap-2 justify-center p-2">
                                     <p>Not a Registered User?</p>
-                                     
                                     <Link to={"/signup"} className="text-red-600 hover:text-blue-500">SIGN UP</Link>
                                 </div>
                             </div>

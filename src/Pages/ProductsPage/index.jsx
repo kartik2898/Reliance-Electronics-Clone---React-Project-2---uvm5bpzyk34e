@@ -10,7 +10,7 @@ function ProductsPage(){
     const [price,setPrice] = useState(1);
     const [products, setProducts] = useState([]);
     const [page, setPage] = useState(0);
-    const [showSkeleton , setShowSkeleton] = useState(true)
+    const [showSkeleton , setShowSkeleton] = useState("true")
     const [nextPage, setNextpage] = useState(true);
     const {sc} = useParams();
     const location = useLocation();
@@ -21,7 +21,7 @@ function ProductsPage(){
     
     
     useEffect(() => {
-        setShowSkeleton(true);
+        setShowSkeleton("true");
         setPage(0)
         setProducts([]);
         scrollToTop();
@@ -29,7 +29,6 @@ function ProductsPage(){
     }, [sc,searchTitle,price])
 
     useEffect(()=>{
-        if(page!=0)
             getProducts()
    },[page])
 
@@ -43,7 +42,7 @@ function ProductsPage(){
             searchProduct = `search=${urlComponent}&${filter}`
         }
         productService.getProducts(searchProduct).then((res)=>{
-            setShowSkeleton(false)
+            // setShowSkeleton(false)
             if(page==0){
                 setProducts(res.data.data);
             }else{
@@ -58,8 +57,7 @@ function ProductsPage(){
                 console.log(products);
                 console.log(showSkeleton);
             },1000)
-        }).catch(
-            setShowSkeleton(false)
+        }).catch((err)=>setShowSkeleton(false)
         )
     }
 
@@ -159,7 +157,7 @@ function ProductsPage(){
                 </InfiniteScroll>
             </div>
         </div>
-        ):(!showSkeleton && products.length==0?(
+         ):(!showSkeleton && products.length==0?(
             <div className="mt-[7.9%] flex flex-col h-[100vh] justify-center items-center">
                 <img src={empty} className="w-32 h-32"></img>
                 <p>No Product</p>
@@ -194,7 +192,7 @@ function ProductsPage(){
                 </div>
             </div>
         ))
-        }
+        } 
     </div>
     )
 }

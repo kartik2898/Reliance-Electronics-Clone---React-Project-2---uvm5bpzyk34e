@@ -3,7 +3,7 @@ import Header from "../../components/Header/index";
 import Carousel from "../../components/carousel/Carousel";
 import MultiCarousel from "../../components/carousel/multiCarousel/MultiCarousel";
 import productService from "../../service/ProductService";
-
+import Footer from "../../components/Footer";
 function Home(){
     const[lowesPriceProduct, setLowestPriceProduct] = useState([]);
     const[trendingProduct, setTrendingProducts] = useState([]);
@@ -72,6 +72,9 @@ function Home(){
             <div>
                 <MultiCarousel products={trendingProduct} heading="Top Trending Deals"/>
             </div>
+        </div>
+        <div>
+            <Footer/>
         </div>
     </div>
 )}

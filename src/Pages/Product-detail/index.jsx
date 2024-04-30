@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import productService from "../../service/ProductService";
 import { RxDotFilled } from "react-icons/rx";
 import MultipleItems from "../../components/carousel/singleProductCarousel";
+import { PiMonitorPlayThin } from "react-icons/pi";
 
 function ProductDetail(){
     const [product, setProduct] = useState([]);
@@ -25,27 +26,33 @@ function ProductDetail(){
         navigate('/cart',{state : {id:id}});
     }
 
-    const props = {width: 400, height: 250, zoomWidth: 500, img: {selectImg}};
     return(<>
         <div className="bg-[#F5F7F7] mt-[7.9%]">
-            <div className="flex border-b-2">
-                <div className="max-w-md">
+            <div className="flex border-b-2 gap-2">
+                <div className="max-w-md bg-white">
                     <div className="p-6 flex justify-center">
                         <img src={selectImg}/>
                     </div>
-                    <div className="flex max-w-md flex-col justify-center items-center">
-                        <div className="max-w-96">
+
+                   
+                    <div className="flex h-[13%] max-w-md flex-col justify-center">
+                        <div className="max-w-72 ml-[80px]">
                             <MultipleItems images={product.images} active={setSeclectImg}/>
                         </div>  
+                    </div>
+                    <div className="p-3 cursor-pointer">
+                        <PiMonitorPlayThin fontSize={40} color="red"/>
+                        <p>View Slide Show</p>
                     </div>
                 </div>
                 <div className="flex flex-col gap-2">
                     <div className="bg-white p-3"> 
                         <h3 className="text-xl font-semibold">{product.name}</h3>
                         <p>{Math.round(product.ratings)} ratings  & review</p>
+                        
                     </div>
                     <div className="flex bg-white">
-                        <div className="p-3 border-e-2">
+                        <div className="p-3 border-e-2 max-w-[65%]">
                             <div>
                                 <h3 className="text-base font-bold">Gain more with offers</h3>
                                 <span className="p-2">Flat 1000 Discount with OneCard Credit Cards Read-T&C</span>
@@ -90,16 +97,24 @@ function ProductDetail(){
                             <div>Offer price : <span className="text-base font-bold">&#8377;{product.price}</span></div>
                             <h2 className="text-lg font-semibold py-2">FREE Shipping!</h2>
                             <div className="flex gap-2 font-semibold text-white">
-                                <button className="p-3 bg-[#E43529] rounded hover:bg-[#003380]" onClick={()=>handleNavigate()}>ADD TO CARD</button>
+                                <button className="p-3 bg-[#E43529] rounded hover:bg-[#003380]" onClick={()=>handleNavigate()}>ADD TO CART</button>
                                 <button className="p-3 px-6 bg-[#FC6027] rounded" onClick={()=>handleNavigate()}>BUY NOW</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div>
-                <p>Description</p>
-                <div dangerouslySetInnerHTML={{__html: product.description}}></div>
+            <div className="bg-white px-6 py-3 text-lg">
+                <div>
+                    <p className="font-semibold">Description</p>
+                    <div dangerouslySetInnerHTML={{__html: product.description}}></div>
+                </div>
+                <div className="py-3">
+                    <div className="flex gap-2">
+                        <p className="font-semibold text-xl">Customer Reviews</p>
+                        <p className="text-base">({product.name})</p>          
+                    </div>
+                </div>
             </div>
         </div>
     </>)

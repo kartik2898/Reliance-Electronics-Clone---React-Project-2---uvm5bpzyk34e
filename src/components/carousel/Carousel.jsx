@@ -21,10 +21,10 @@ function Carousel(){
   return(
     <div className="" style={{marginTop:'7.9%'}}>
       <Slider {...settings} >
-        <div>
-          <img src={summer} alt="" />
+        <div className="flex">
+          <img src={summer} alt="" className="" />
         </div>
-        <div>
+        <div>  
           <img src={Ac} alt="" />
         </div>
         <div>

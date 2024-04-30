@@ -6,22 +6,28 @@ import Layout from "./layout";
 import Login from "./Pages/LoginPage";
 import SignUp from "./Pages/Sign-up";
 import ShoppingCard from "./Pages/ShoppingCardPage";
+import UserContextProvider from "./contexts/user-context";
+import { ToastContainer } from 'react-toastify';
 
 function App() {
-  return <div className=''>
+  return (<div className=''>
     {/* <Header/> */}
-    <Routes>
-    <Route path="/login" element={<Login/>}/>
-    <Route path="/signup" element={<SignUp/>}/>
-      {/* <Route path="/home" element={<Home/>} /> */}
-      <Route path="/" element={<Layout/>}>
-        <Route path="/home" element={<Home/>} />
-        <Route path="/products/c/:sc" element={<ProductsPage/>}/>
-        <Route path="/product/:id" element={<ProductDetail/>}/>
-        <Route path="/cart" element={<ShoppingCard/>}></Route>
-      </Route>
-    </Routes>
-  </div>;
+    <ToastContainer />
+    <UserContextProvider>
+      <Routes>
+      <Route path="/login" element={<Login/>}/>
+      <Route path="/signup" element={<SignUp/>}/>
+        {/* <Route path="/home" element={<Home/>} /> */}
+        <Route path="/" element={<Layout/>}>
+          <Route path="/home" element={<Home/>} />
+          <Route path="/products/c/:sc" element={<ProductsPage/>}/>
+          <Route path="/product/:id" element={<ProductDetail/>}/>
+          <Route path="/cart" element={<ShoppingCard/>}></Route>
+        </Route>
+      </Routes>
+    </UserContextProvider>
+  </div>
+  );
 }
 
 export default App;

@@ -2,7 +2,7 @@ import Slider from "react-slick";
 
 function MultipleItems({images,active}) {
   const settings = {
-    dots: true,
+    dots: false,
     infinite: false,
     speed: 500,
     slidesToShow: 3,

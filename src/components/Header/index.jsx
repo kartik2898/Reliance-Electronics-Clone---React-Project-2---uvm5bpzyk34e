@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import productService from "../../service/ProductService";
 import logo from "../../Assets/images.png"
 import { FiSearch } from "react-icons/fi";
@@ -10,19 +10,20 @@ import { useFormik } from 'formik';
 import { Link } from "react-router-dom";
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
+import { UserContext } from "../../contexts/user-context";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
   }
 function Header(){
     const [itemsCategories, setItemsCategories] =useState([]);
+    const {userDetail} = useContext(UserContext);
     const navigate = useNavigate();
     const userNavigation = [
         { name: 'Your Profile', href: '#' },
         { name: 'Settings', href: '#' },
         { name: 'Sign out', href: '#'},
     ]
-    const user = JSON.parse(localStorage.getItem("userDetail"));
     const validationForm = yup.object({
         search:yup.string().trim().required(),
     });
@@ -80,7 +81,7 @@ function Header(){
                 <div className="flex items-center gap-x-2 text-white justify-center">
                     <div>Select your Pin Code</div>
                     <Link to={"/cart"} className="flex "><FaShoppingCart size={20} /> <span>Cart</span></Link>
-                    {user?
+                    {userDetail?
                     (
                         <div>
                             <Menu as="div" className="relative ml-3">
@@ -89,7 +90,7 @@ function Header(){
                             {/* <span className="absolute -inset-1.5" />
                             <span className="sr-only">Open user menu</span>
                             <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" /> */}
-                            <MdPerson size={20}/>  <span className="px-2">Hii</span> <span>{user?.user?.name}</span>
+                            <MdPerson size={20}/>  <span className="px-2">Hii</span> <span>{userDetail?.user.name}</span>
                           </Menu.Button>
                           
                         </div>
