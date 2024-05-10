@@ -24,7 +24,7 @@ function MultiCarousel({products,heading,categoryName}){
     })
   }
     var settings = {
-        dots: true,
+        dots: false,
         infinite: false,
         speed: 500,
         slidesToShow: 4,
@@ -37,7 +37,7 @@ function MultiCarousel({products,heading,categoryName}){
               slidesToShow: 3,
               slidesToScroll: 3,
               infinite: true,
-              dots: true
+              dots: false
             }
           },
           {
@@ -65,21 +65,24 @@ function MultiCarousel({products,heading,categoryName}){
         navigate(`/products/c/:sc`)
       }
     }
+    const handleProductId = (id)=>{
+      navigate(`/product/${id}`)
+  }
     return(
-        <div className="slider-container">
-          <div className="flex gap-x-1.5">
-                <h1 className="text-lg"> {heading}</h1>
-                <button onClick={handleNavigate} className="p-1 bg-[#003380] px-3 text-white text-xs rounded-sm">View all</button>
+        <div className="slider-container flex flex-col justify-center items-center bg-[#F9F9F9]">
+            <div className="flex gap-x-1.5 self-start p-5">
+              <h1 className="text-lg"> {heading}</h1>
+              <button onClick={handleNavigate} className="p-1 bg-[#003380] px-3 text-white text-xs rounded-sm">View all</button>
             </div>
-            <Slider {...settings}>
+            <Slider {...settings} className="w-[98%] bg-white p-3 rounded">
             {
               Products?.map((product,indx)=>(
-                <div key={indx} className="text-center">
-                  <div className="flex justify-center">
-                    <img src={product.displayImage} className="max-h-64"/>
+                <div key={indx} className="text-center" onClick={()=>handleProductId(product._id)}>
+                  <div className="flex justify-center p-4">
+                    <img src={product.displayImage} className="max-h-64 transition duration-500 hover:duration-500 ease-in-out hover:scale-110 cursor-pointer"/>
                   </div>
-                  <div>
-                    <h3>{product.name}</h3>
+                  <div className="">
+                    <h3 className="hover:text-red-400 cursor-pointer">{product.name}</h3>
                     <div>
                       <div>Price: <span>&#8377;{product.price}</span></div>
                     </div>

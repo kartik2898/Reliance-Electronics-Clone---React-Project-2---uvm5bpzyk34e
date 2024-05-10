@@ -47,7 +47,7 @@ function Home(){
     ]
     
     return(
-    <div>
+    <div className="bg-[#E9EBEE] ">
         {/* <div>
             <Header/>
         </div> */}
@@ -56,19 +56,19 @@ function Home(){
         </div>
         {
             productsCategoriesName.map((product,key)=>(
-                <div className="mt-7" key={key}>
-                    <div>
+                <div className="mt-2" key={key}>
+                    <div className="">
                         <MultiCarousel  heading={product.heading} categoryName={product.categoryName}/>
                     </div>
                 </div>
             ))
         }
-        <div className="mt-6">
+        <div className="mt-2">
             <div>
                 <MultiCarousel products={lowesPriceProduct} heading="Lowest Prices of the Today"/>
             </div>
         </div>
-        <div className="mt-6">
+        <div className="mt-2">
             <div>
                 <MultiCarousel products={trendingProduct} heading="Top Trending Deals"/>
             </div>

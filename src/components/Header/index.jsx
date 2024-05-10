@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import { UserContext } from "../../contexts/user-context";
+import { CartContext } from "../../contexts/cart-context";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -18,11 +19,12 @@ function classNames(...classes) {
 function Header(){
     const [itemsCategories, setItemsCategories] =useState([]);
     const {userDetail} = useContext(UserContext);
+    const {cartItems} = useContext(CartContext);
     const navigate = useNavigate();
     const userNavigation = [
-        { name: 'Your Profile', href: '#' },
-        { name: 'Settings', href: '#' },
-        { name: 'Sign out', href: '#'},
+        { name: 'Your Profile'},
+        { name: 'Settings'},
+        { name: 'Sign out'},
     ]
     const validationForm = yup.object({
         search:yup.string().trim().required(),
@@ -54,6 +56,12 @@ function Header(){
             setItemsCategories(res.data.data)
         })
     }
+
+    const handleNavigation = (Name)=>{
+        if(Name == 'Sign out'){
+          navigate('/login');
+        }
+    }
     return(
         <div className="fixed w-full z-50 mt-[-7.9%]">
             <div className="bg-[#E42529] flex items-center justify-around">
@@ -63,36 +71,36 @@ function Header(){
                 <div className="w-5/12">
                     <form className="flex  items-center justify-center" onSubmit={formik.handleSubmit}>
                         <div className="flex  items-center w-10/12 rounded-3xl h-10">
-                            {/* <form> */}
-
-                                <input 
-                                    placeholder="Find your favorite products" 
-                                    className="w-full rounded-3xl h-8 px-3" 
-                                    name="search"
-                                    value={formik.values.search}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                />
-                            {/* </form> */}
-                            <FiSearch className="relative right-6" />
+                          <input 
+                            placeholder="Find your favorite products" 
+                            className="w-full rounded-3xl h-8 px-3" 
+                            name="search"
+                            value={formik.values.search}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                          <FiSearch className="relative right-6" />
                         </div>
                     </form>
                 </div>
                 <div className="flex items-center gap-x-2 text-white justify-center">
-                    <div>Select your Pin Code</div>
-                    <Link to={"/cart"} className="flex "><FaShoppingCart size={20} /> <span>Cart</span></Link>
+                    <div className="pr-2">Select your Pin Code</div>
+                    <Link to={"/cart"} className="flex relative"><FaShoppingCart size={20} />
+                    {cartItems?.items?.length > 0 && (
+                    <span className="absolute bottom-3 right-6 flex items-center justify-center w-5 h-5 bg-red-500 rounded-full text-white text-xs">
+                      {cartItems?.items?.length}
+                    </span>
+                    )}
+                     <span className="pl-2">Cart</span>
+                    </Link>
                     {userDetail?
                     (
                         <div>
                             <Menu as="div" className="relative ml-3">
                         <div>
                           <Menu.Button className="relative flex max-w-xs items-center text-sm focus:outline-none ">
-                            {/* <span className="absolute -inset-1.5" />
-                            <span className="sr-only">Open user menu</span>
-                            <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" /> */}
                             <MdPerson size={20}/>  <span className="px-2">Hii</span> <span>{userDetail?.user.name}</span>
                           </Menu.Button>
-                          
                         </div>
                         <Transition
                           as={Fragment}
@@ -108,10 +116,10 @@ function Header(){
                               <Menu.Item key={item.name}>
                                 {({ active }) => (
                                   <a
-                                    href={item.href}
+                                    onClick={()=>handleNavigation(item.name)}
                                     className={classNames(
                                       active ? 'bg-gray-100' : '',
-                                      'block px-4 py-2 text-sm text-gray-700'
+                                      'block px-4 py-2 text-sm text-gray-700 cursor-pointer'
                                     )}
                                   >
                                     {item.name}

@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.slick-next:before,.slick-prev:before {
+    color: black !important;
+}
+
+.slick-arrow{
+    height: 6rem !important;
+    width: 2rem !important;
+    /* background-color: aquamarine !important; */
+    border: 1px solid rgb(221,221,221) !important;
+    box-shadow: 0 0 10px rgb(0, 0, 0,0.2)!important;
+}
+.slick-next{
+    right: 5px !important;
+}
+.slick-prev{
+    left: 5px !important;
+    z-index: 1;
+}
+.slick-dots{
+    bottom: 0px !important;
+}

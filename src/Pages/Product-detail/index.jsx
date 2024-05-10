@@ -1,19 +1,36 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import productService from "../../service/ProductService";
 import { RxDotFilled } from "react-icons/rx";
 import MultipleItems from "../../components/carousel/singleProductCarousel";
 import { PiMonitorPlayThin } from "react-icons/pi";
+import Modal from "../../components/modal";
+import { CartContext } from "../../contexts/cart-context";
+import { Rating } from '@smastrom/react-rating'
+import '@smastrom/react-rating/style.css'
+import ReactImageMagnify from '@blacklab/react-image-magnify';
 
 function ProductDetail(){
     const [product, setProduct] = useState([]);
     const [selectImg, setSeclectImg] =useState();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [itemInCart, setItemInCart] = useState(false);
     const {id} = useParams();
     const navigate = useNavigate();
+    const {addCartItem,cartItems,checkProductInCart} = useContext(CartContext)
+    const openModal = () => {
+      setIsModalOpen(true);
+    };
+    const closeModal = () => {
+      setIsModalOpen(false);
+    };
 
     useEffect(()=>{
         getProduct();
     },[])
+    useEffect(()=>{
+        setItemInCart(checkProductInCart(id))
+    },[cartItems])
 
     const getProduct = ()=>{
         productService.getProduct(id).then((res)=>{
@@ -23,7 +40,8 @@ function ProductDetail(){
     }
 
     const handleNavigate = ()=>{
-        navigate('/cart',{state : {id:id}});
+        addCartItem(id)
+        navigate('/cart')
     }
 
     return(<>
@@ -31,28 +49,76 @@ function ProductDetail(){
             <div className="flex border-b-2 gap-2">
                 <div className="max-w-md bg-white">
                     <div className="p-6 flex justify-center">
-                        <img src={selectImg}/>
+                        <ReactImageMagnify
+                            imageProps={{
+                                alt: 'Wristwatch by Ted Baker London',
+                                // isFluidWidth: true,
+                                src: selectImg,
+                                height : "100%",
+                                width : 400
+                            }}
+                            magnifiedImageProps={{
+                                src: selectImg,
+                                width: 600,
+                                height: 600
+                            }}
+                            magnifyContainerProps ={ {
+                                scale : 2
+                                }}
+                            portalProps = {{ 
+                                id : "portal-test-id",
+                                horizontalOffset : 50
+                            }
+                            }
+                        />
+                        {/* <img src={selectImg}/> */}
                     </div>
-
-                   
-                    <div className="flex h-[13%] max-w-md flex-col justify-center">
-                        <div className="max-w-72 ml-[80px]">
-                            <MultipleItems images={product.images} active={setSeclectImg}/>
+                    <div className="flex h-[13%] max-w-md flex-col justify-center mt-4">
+                        <div className="px-2">
+                            <MultipleItems images={product.images} active={setSeclectImg} selectImg={selectImg}/>
                         </div>  
                     </div>
-                    <div className="p-3 cursor-pointer">
-                        <PiMonitorPlayThin fontSize={40} color="red"/>
-                        <p>View Slide Show</p>
+                    <div className="p-3 cursor-pointer mt-4">
+                        
+                        <div>
+                            <button
+                                className="flex flex-col justify-center items-center border-e p-2"
+                                onClick={openModal}
+                            >
+                               <PiMonitorPlayThin fontSize={35} color="red" className=""/>
+                                <p className="text-sm">View Slide Show</p>
+                            </button>
+                            <Modal isOpen={isModalOpen} onClose={closeModal}>
+                                <div className="flex justify-between p-3 bg-[#3399CC] text-white rounded-t-lg">
+                                    <div className="font-bold ">{product.name}</div>
+                                    <div onClick={closeModal}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                                            <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div className="p-3 flex justify-between ">
+                                    <div className="w-[40%] flex flex-col justify-center ml-[80px]">
+                                        <div className=" w-[60%]">
+                                            <MultipleItems images={product.images} active={setSeclectImg} selectImg={selectImg}/>
+                                        </div>
+                                    </div>
+                                    <div className="w-[35%]">
+                                        <img src={selectImg}/>
+                                    </div>
+                                </div>
+                            </Modal>
+                        </div>
                     </div>
                 </div>
                 <div className="flex flex-col gap-2">
                     <div className="bg-white p-3"> 
                         <h3 className="text-xl font-semibold">{product.name}</h3>
-                        <p>{Math.round(product.ratings)} ratings  & review</p>
+                        <div className=""> <Rating style={{ maxWidth: 180 }}value={product.ratings}readOnly/></div>
                         
                     </div>
-                    <div className="flex bg-white">
-                        <div className="p-3 border-e-2 max-w-[65%]">
+                    <div className="flex bg-white h-[100%]">
+                        <div className="p-3 border-e-2 max-w-[60%]">
                             <div>
                                 <h3 className="text-base font-bold">Gain more with offers</h3>
                                 <span className="p-2">Flat 1000 Discount with OneCard Credit Cards Read-T&C</span>
@@ -97,7 +163,10 @@ function ProductDetail(){
                             <div>Offer price : <span className="text-base font-bold">&#8377;{product.price}</span></div>
                             <h2 className="text-lg font-semibold py-2">FREE Shipping!</h2>
                             <div className="flex gap-2 font-semibold text-white">
+                            {
+                                itemInCart ?<button className="p-3 bg-[#E43529] rounded hover:bg-[#003380]" onClick={()=>handleNavigate()}>GO TO CART</button> : 
                                 <button className="p-3 bg-[#E43529] rounded hover:bg-[#003380]" onClick={()=>handleNavigate()}>ADD TO CART</button>
+                            }    
                                 <button className="p-3 px-6 bg-[#FC6027] rounded" onClick={()=>handleNavigate()}>BUY NOW</button>
                             </div>
                         </div>
@@ -109,12 +178,12 @@ function ProductDetail(){
                     <p className="font-semibold">Description</p>
                     <div dangerouslySetInnerHTML={{__html: product.description}}></div>
                 </div>
-                <div className="py-3">
+                {/* <div className="py-3">
                     <div className="flex gap-2">
                         <p className="font-semibold text-xl">Customer Reviews</p>
                         <p className="text-base">({product.name})</p>          
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     </>)

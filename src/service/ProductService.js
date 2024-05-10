@@ -30,18 +30,25 @@ const getCartItems = ()=>{
 const deleteCartItem = (productID)=>{
     return http.delete(`https://academics.newtonschool.co/api/v1/ecommerce/cart/${productID}`)
 }
+const addItemInWishList = (productID) => {
+    return http.patch(`https://academics.newtonschool.co/api/v1/ecommerce/wishlist`,{ "productId": productID });
+  };
+const getWishList = ()=>{
+    return http.get(` https://academics.newtonschool.co/api/v1/ecommerce/wishlist`);
+}
+const removeItemFromWishList = (productID)=>{
+    return http.delete(`https://academics.newtonschool.co/api/v1/ecommerce/wishlist/${productID}`)
+}
 const productService = {
     getItemsCategories,
     getProducts,
-    // lowestPriceProducts,
-    // trendingProducts,
-    // productsCategories,
     getProduct,
-    // search,
     AddCartItem,
     getCartItems,
     deleteCartItem,
-
+    addItemInWishList,
+    getWishList,
+    removeItemFromWishList
 }
 
 export default productService
