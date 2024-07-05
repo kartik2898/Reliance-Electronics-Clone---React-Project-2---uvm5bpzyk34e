@@ -99,7 +99,7 @@ function Header(){
                             <Menu as="div" className="relative ml-3">
                         <div>
                           <Menu.Button className="relative flex max-w-xs items-center text-sm focus:outline-none ">
-                            <MdPerson size={20}/>  <span className="px-2">Hii</span> <span>{userDetail?.user.name}</span>
+                            <MdPerson size={20}/>  <span className="px-2">Hii</span> <span>{userDetail?.user?.name}</span>
                           </Menu.Button>
                         </div>
                         <Transition
@@ -113,16 +113,16 @@ function Header(){
                         >
                           <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             {userNavigation.map((item) => (
-                              <Menu.Item key={item.name}>
+                              <Menu.Item key={item?.name}>
                                 {({ active }) => (
                                   <a
-                                    onClick={()=>handleNavigation(item.name)}
+                                    onClick={()=>handleNavigation(item?.name)}
                                     className={classNames(
                                       active ? 'bg-gray-100' : '',
                                       'block px-4 py-2 text-sm text-gray-700 cursor-pointer'
                                     )}
                                   >
-                                    {item.name}
+                                    {item?.name}
                                   </a>
                                 )}
                               </Menu.Item>
