@@ -277,7 +277,7 @@ const CheckOut = () => {
                   </div>
                 </div>
                 <div className='flex justify-end gap-2'>
-                  <button className='px-5 py-1 border border-red-500 text-red-500'>CANCEL</button>
+                  <button className='px-5 py-1 border border-red-500 text-red-500' onClick={closeModal}>CANCEL</button>
                   <button className='px-5 py-1 bg-red-500 text-white' type="submit">SUBMIT</button>
                 </div> 
               </div>
