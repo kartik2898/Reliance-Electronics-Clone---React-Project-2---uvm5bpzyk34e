@@ -29,7 +29,6 @@ function App() {
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/cart" element={<ShoppingCard />} />
               <Route path="/checkout" element={<CheckOut />} />
-
             </Route>
           </Routes>
         </WishListContextProvider>

@@ -10,7 +10,6 @@ const validationAddress = yup.object({
   Pincode:yup.string().max(6,'Pincode should not be greater than 6').required("pincode is required"),
   firstName:yup.string().required().trim(),
   lastName:yup.string().required().trim(),
-  password:yup.string().min(5, 'Password should be of minimum 5 characters length').required('Password is required').trim(),
   houseNumber:yup.string().trim().required(),
   street:yup.string().required().trim(),
   state:yup.string().trim().required(),
@@ -27,26 +26,27 @@ const CheckOut = () => {
 
   const formik = useFormik({
     initialValues: {
-        Pincode: '',
-        firstName: '',
-        lastName:"",
-        password:'',
-        houseNumber:'',
-        street:'',
-        state:'',
-        city:'',
-        mobileNumber:'',
-        landMark:'',
-        landline:''
+      Pincode: '',
+      firstName: '',
+      lastName: '',
+      houseNumber: '',
+      street: '',
+      state: '',
+      city: '',
+      mobileNumber: '',
+      landMark: '',
+      landline: ''
     },
     validationSchema: validationAddress,
-    onSubmit: (values,action) => {
-        console.log(values);
-        setAddress(values);
-        closeModal();
-        action.resetForm();
-    },
-})
+    onSubmit: (values, actions) => {
+      console.log(values);
+      setAddress(values);
+      actions.resetForm();
+      closeModal();
+      handleNextStep();
+    }
+  });
+
 
   const handleNextStep = () => {
     if (currentStep < 2) {
@@ -130,7 +130,7 @@ const CheckOut = () => {
             )}
           </>)
         }
-        <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <Modal isOpen={isModalOpen} onClose={closeModal}> 
             <div className="flex justify-between p-3 bg-[#3399CC] text-white rounded-t-lg">
                 <div className="font-bold ">Add a New Address</div>
                 <div onClick={closeModal}>
@@ -282,7 +282,7 @@ const CheckOut = () => {
                 </div> 
               </div>
             </form>
-        </Modal>
+        </Modal> 
       </div>
 
       <div
