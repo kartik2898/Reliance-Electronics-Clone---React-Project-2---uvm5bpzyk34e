@@ -1,5 +1,5 @@
 import { Route, Routes ,Navigate} from "react-router-dom";
-import Home from "./Pages/Home";
+import Home from "./Pages/";
 import ProductsPage from "./Pages/ProductsPage";
 import ProductDetail from "./Pages/Product-detail";
 import Layout from "./layout";
@@ -29,7 +29,7 @@ function App() {
                 <Route path="/cart" element={<ShoppingCard />} />
                 <Route path="/checkout" element={<CheckOut />} />
                 <Route path="/checkout/:id" element={<CheckOut />} />
-                {/* <Route path="*" element={<Navigate to="/home" />} /> */}
+                {/* <Route path="*" element={<Navigate to="/" />} /> */}
               </Route>
             </Routes>
         </WishListContextProvider>

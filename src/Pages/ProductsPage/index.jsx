@@ -149,7 +149,7 @@ function ProductsPage(){
                             (<div className="mt-[7.9%] flex flex-col h-[100vh] justify-center items-center">
                                 <img src={empty} className="w-32 h-32"></img>
                                 <p>No Product</p>
-                                <Link to={"/home"} className="bg-red-600 p-2 rounded text-white">CONTINUE SHOPPING</Link>
+                                <Link to={"/"} className="bg-red-600 p-2 rounded text-white">CONTINUE SHOPPING</Link>
                             </div>)
                           )
                         }
@@ -161,7 +161,7 @@ function ProductsPage(){
             <div className="mt-[7.9%] flex flex-col h-[100vh] justify-center items-center">
                 <img src={empty} className="w-32 h-32"></img>
                 <p>No Product</p>
-                <Link to={"/home"} className="bg-red-600 p-2 rounded text-white">CONTINUE SHOPPING</Link>
+                <Link to={"/"} className="bg-red-600 p-2 rounded text-white">CONTINUE SHOPPING</Link>
 
             </div>
         ):(

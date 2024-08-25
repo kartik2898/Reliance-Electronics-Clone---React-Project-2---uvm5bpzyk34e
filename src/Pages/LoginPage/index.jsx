@@ -33,7 +33,7 @@ function Login(){
             setUserDetail(res.data.data)
             // console.log(localStorage.getItem("userDetail"))
             setTimeout(() => {
-                navigate('/home');
+                navigate('/');
             }, 100);
         })
     }
