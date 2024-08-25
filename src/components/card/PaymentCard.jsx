@@ -10,7 +10,7 @@ function PaymentCard() {
         months: yup.string().required("Month is required").trim(),
         year: yup.string().required("Year is required"),
         cvv: yup.string().min(3, "CVV should be 3 digits").max(3, "CVV should be only 3 digits").required("CVV is required"),
-        termAndcondition: yup.boolean().oneOf([], 'You need to accept the terms and conditions').required(),
+        termAndcondition: yup.boolean().oneOf([true], 'You need to accept the terms and conditions').required(),
     });
 
     const formik = useFormik({

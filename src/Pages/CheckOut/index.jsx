@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { CartContext } from "../../contexts/cart-context";
+import {useParams}  from "react-router-dom";
 import Modal from "../../components/modal";
 import PaymentCard from '../../components/card/PaymentCard';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
+import productService from "../../service/ProductService";
 
 
 
@@ -22,7 +25,15 @@ const CheckOut = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [openAccordion, setOpenAccordion] = useState(0);
   const [Address, setAddress] = useState("");
+  const [product, setProduct] = useState([]);
+  const {cartItems,deleteCartItem,addCartItem} = useContext(CartContext);
+  const {id} = useParams();
+  console.log(cartItems);
 
+  useEffect(()=>{
+    if(id)
+    getProduct()
+  },[id])
 
   const formik = useFormik({
     initialValues: {
@@ -39,7 +50,7 @@ const CheckOut = () => {
     },
     validationSchema: validationAddress,
     onSubmit: (values, actions) => {
-      console.log(values);
+      // console.log(values);
       setAddress(values);
       actions.resetForm();
       closeModal();
@@ -47,6 +58,13 @@ const CheckOut = () => {
     }
   });
 
+  const getProduct = ()=>{
+    productService.getProduct(id).then((res)=>{
+      setProduct(res.data.data);
+    })
+  }
+
+  console.log(product);
 
   const handleNextStep = () => {
     if (currentStep < 2) {
@@ -113,7 +131,20 @@ const CheckOut = () => {
         }
         </div>
         {
-          Address?(<div>zero</div>):( <> {openAccordion === 0 && (
+          Address?(<div>
+            <div className='bg-[#f3f4f6] w-[30%] p-2 ml-2'>
+              <div>
+                <span>{Address.firstName} {Address.lastName}</span>
+                <div>
+                  <span>{Address.houseNumber},{Address.street}</span>
+                  <p>
+                    {Address.city}-{Address.Pincode},{Address.state}
+                  </p>
+                  <p>Mobile: +91 {Address.mobileNumber}</p>
+                </div>
+              </div>
+            </div>
+          </div>):( <> {openAccordion === 0 && (
               <div className="p-4 border-t border-gray-300">
                 <span onClick={openModal} className='p-2 border border-sky-500 rounded text-sm cursor-pointer'>ADD SHIPPING ADDRESS</span>
                 {currentStep === 0 && (
@@ -318,43 +349,133 @@ const CheckOut = () => {
           </span>
         }
         </div>
-        {openAccordion === 1 && (
-          <div className="p-4 border-t border-gray-300">
-            <div className=''>
-              <div className='flex'>
-                <div className='w-[70%]'>product name</div>
-                <div className='flex w-[30%] justify-between'>
-                  <div>Qty: 1</div>
-                  <div>rs 1799</div>
+       
+        { 
+          openAccordion === 2 &&(product.length<1?(<div className='bg-[#f3f4f6]'>
+          <div>
+                  {
+                cartItems.items?.map((cartItem,idx)=>(
+                  <div className="p-4 border-t border-gray-300">
+                  <div className=''>
+                    <div className='flex'>
+                      <div className='w-[70%]'>{cartItem.product.name}</div>
+                      <div className='flex w-[30%] justify-between'>
+                        <div>Qty: {cartItem.quantity}</div>
+                        <div>{cartItem.product.price}</div>
+                      </div>
+                    </div>
+                    
+                  </div>
                 </div>
+                ))
+                  }
+            </div>
+            <hr />
+              <div className='flex justify-end'>
+                <div className='flex w-[30%] justify-between py-4 pr-4'>
+                  <span className=''>Total:</span>
+                  <span>{cartItems.totalPrice}</span>
+                </div>
+              </div>
+          </div>):(<div className="p-4 border-t border-gray-300 ">
+          <div className='bg-[#f3f4f6] p-4'>
+            <div className='flex mb-1'>
+              <div className='w-[70%]'>{product.name}</div>
+              <div className='flex w-[30%] justify-between'>
+                <div>Qty: 1</div>
+                <div>{product.price}</div>
+              </div>
+            </div>
+            <hr />
+            <div className='flex justify-end'>
+              <div className='flex w-[30%] justify-between'>
+                <span className=''>Total:</span>
+                <span>{product.price}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+          )
+          )
+        }
+
+          {
+            openAccordion === 1 && (product<1?(<>
+              <div>
+              {
+                cartItems.items?.map((cartItem,idx)=>(
+                  <div className="p-4 border-t border-gray-300">
+                  <div className=''>
+                    <div className='flex'>
+                      <div className='w-[70%]'>{cartItem.product.name}</div>
+                      <div className='flex w-[30%] justify-between'>
+                        <div>Qty: {cartItem.quantity}</div>
+                        <div>{cartItem.product.price}</div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+                ))
+              }
               </div>
               <hr />
               <div className='flex justify-end'>
-                <div className='flex w-[30%] justify-between'>
+                <div className='flex w-[30%] justify-between px-3'>
                   <span className=''>Total:</span>
-                  <span>1799</span>
+                  <span>{cartItems.totalPrice}</span>
                 </div>
               </div>
-            </div>
-
-            {currentStep === 1 && (
-              <div className="mt-4">
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                  onClick={handlePrevStep}
-                >
-                  Prev
-                </button>
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={handleNextStep}
-                >
-                  Next
-                </button>
+                  {currentStep === 1 && (
+                    <div className="m-4">
+                      {/* <button
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                        onClick={handlePrevStep}
+                      >
+                        Prev
+                      </button> */}
+                      <button
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        onClick={handleNextStep}
+                      >
+                        Next
+                      </button>
+                    </div>
+                  )}
+                
+                </>
+              )
+            :( <div className="p-4 border-t border-gray-300">
+              <div className=''>
+                <div className='flex'>
+                  <div className='w-[70%]'>{product.name}</div>
+                  <div className='flex w-[30%] justify-between'>
+                    <div>Qty: 1</div>
+                    <div>{product.price}</div>
+                  </div>
+                </div>
+                <hr />
+                <div className='flex justify-end'>
+                  <div className='flex w-[30%] justify-between'>
+                    <span className=''>Total:</span>
+                    <span>{product.price}</span>
+                  </div>
+                </div>
               </div>
-            )}
-          </div>
-        )}
+  
+              {currentStep === 1 && (
+                <div className="mt-4">
+                  <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={handleNextStep}
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
+            </div>)
+          )
+          }
       </div>
 
       <div

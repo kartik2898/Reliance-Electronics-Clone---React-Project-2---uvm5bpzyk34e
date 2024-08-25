@@ -43,7 +43,7 @@ function Home(){
         {
             heading : "TVs with Flat 10% Instant Discount | HDFC/SBI Card Offer",
             categoryName: "tv",
-        },
+        }
     ]
     
     return(

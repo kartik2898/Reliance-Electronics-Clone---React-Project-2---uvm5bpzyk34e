@@ -44,6 +44,10 @@ function ProductDetail(){
         navigate('/cart')
     }
 
+    const handleBuyNow =()=>{
+        navigate(`/checkout/${id}`)
+    }
+
     return(<>
         <div className="bg-[#F5F7F7] mt-[7.9%]">
             <div className="flex border-b-2 gap-2">
@@ -167,7 +171,7 @@ function ProductDetail(){
                                 itemInCart ?<button className="p-3 bg-[#E43529] rounded hover:bg-[#003380]" onClick={()=>handleNavigate()}>GO TO CART</button> : 
                                 <button className="p-3 bg-[#E43529] rounded hover:bg-[#003380]" onClick={()=>handleNavigate()}>ADD TO CART</button>
                             }    
-                                <button className="p-3 px-6 bg-[#FC6027] rounded" onClick={()=>handleNavigate()}>BUY NOW</button>
+                                <button className="p-3 px-6 bg-[#FC6027] rounded" onClick={()=>handleBuyNow()}>BUY NOW</button>
                             </div>
                         </div>
                     </div>

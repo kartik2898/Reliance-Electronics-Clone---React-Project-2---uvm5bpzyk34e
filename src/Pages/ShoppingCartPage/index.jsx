@@ -86,7 +86,7 @@ function ShoppingCard() {
                     </div>
                     <div className="flex flex-col gap-5 w-3/6  rounded h-fit">
                         <div>
-                            <button type="submit" className="bg-red-600 p-2 rounded text-white w-full">
+                            <button type="submit" className="bg-red-600 p-2 rounded text-white w-full" onClick={()=> navigate("/Checkout")}>
                                 CHECKOUT
                             </button>
                         </div>

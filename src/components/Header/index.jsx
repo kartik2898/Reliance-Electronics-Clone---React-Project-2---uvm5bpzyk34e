@@ -65,7 +65,7 @@ function Header(){
     return(
         <div className="fixed w-full z-50 mt-[-7.9%]">
             <div className="bg-[#E42529] flex items-center justify-around">
-                <div className="cursor-pointer" onClick={()=>{navigate(`/home`)}}>
+                <div className="cursor-pointer" onClick={()=>{navigate(`/`)}}>
                     <img src={logo} alt="logo" className="w-40" />
                 </div>
                 <div className="w-5/12">
