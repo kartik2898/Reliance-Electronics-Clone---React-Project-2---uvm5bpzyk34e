@@ -25,6 +25,11 @@ function CartContextProvider({children}){
             getCartItems();
         })
     }
+    const clearCartItem = ()=>{
+        productService.clearCartItem().then((res)=>{
+            getCartItems();
+        })
+    }
     const checkProductInCart = (id) => {
         let itemInCart = cartItems.items.filter(item => item.product._id == id)
         if(itemInCart.length>0) return true
@@ -32,7 +37,7 @@ function CartContextProvider({children}){
     };
     
     return(
-        <CartContext.Provider value={{cartItems,addCartItem,deleteCartItem,checkProductInCart}}>
+        <CartContext.Provider value={{cartItems,addCartItem,deleteCartItem,checkProductInCart,clearCartItem}}>
             {children}
         </CartContext.Provider>
     )

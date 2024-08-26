@@ -1,8 +1,12 @@
+import React, { useContext } from 'react';
 import paymentImg from "../../Assets/payment_logos_cc.webp";
 import * as yup from 'yup';
 import { useFormik } from 'formik';
+import productService from "../../service/ProductService";
+import { CartContext } from "../../contexts/cart-context";
 
-function PaymentCard() {
+function PaymentCard({id,Address}) {
+    const {cartItems,clearCartItem} = useContext(CartContext);
     const validationPaymentCard = yup.object({
         bank: yup.string().required("You have to choose a bank name"),
         cardNumber: yup.string().required("Card number is required").matches(/^\d{16}$/, "Card number should be 16 digits"),
@@ -26,9 +30,36 @@ function PaymentCard() {
         validationSchema: validationPaymentCard,
         onSubmit: (values, action) => {
             console.log(values);
+            OrderNow();
             action.resetForm();
         },
     });
+
+    const address = {
+        "street": Address.street,
+        "city": Address.city,
+        "state": Address.state,
+        "country": "India",
+        "zipCode": Address.Pincode
+    }
+
+    const OrderNow = ()=>{
+        const quantity=1;
+        if(id){
+            productService.OrderNow(id,quantity,address).then((res)=>{
+            })
+            
+        }
+        else{
+            cartItems.items.map((i)=>(
+                productService.OrderNow(i.product._id,i.quantity,address).then((res)=>{
+                })
+            ))
+            clearCartItem();
+        } 
+    }
+
+   
 
     return (
         <div className="flex">

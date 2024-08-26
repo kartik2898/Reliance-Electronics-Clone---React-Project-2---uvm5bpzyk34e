@@ -39,6 +39,13 @@ const getWishList = ()=>{
 const removeItemFromWishList = (productID)=>{
     return http.delete(`https://academics.newtonschool.co/api/v1/ecommerce/wishlist/${productID}`)
 }
+const OrderNow = (productId,quantity=1,address)=>{
+    console.log("check");
+    return http.post(`https://academics.newtonschool.co/api/v1/ecommerce/order`,{"productId":productId,"quantity":quantity,"address":address,"addressType":"HOME"})
+}
+const clearCartItem = (productID)=>{
+    return http.delete(`https://academics.newtonschool.co/api/v1/ecommerce/cart/`)
+}
 const productService = {
     getItemsCategories,
     getProducts,
@@ -48,7 +55,9 @@ const productService = {
     deleteCartItem,
     addItemInWishList,
     getWishList,
-    removeItemFromWishList
+    removeItemFromWishList,
+    OrderNow,
+    clearCartItem
 }
 
 export default productService

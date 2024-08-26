@@ -26,7 +26,7 @@ const CheckOut = () => {
   const [openAccordion, setOpenAccordion] = useState(0);
   const [Address, setAddress] = useState("");
   const [product, setProduct] = useState([]);
-  const {cartItems,deleteCartItem,addCartItem} = useContext(CartContext);
+  const {cartItems} = useContext(CartContext);
   const {id} = useParams();
   console.log(cartItems);
 
@@ -413,7 +413,6 @@ const CheckOut = () => {
                         <div>{cartItem.product.price}</div>
                       </div>
                     </div>
-                    
                   </div>
                 </div>
                 ))
@@ -514,7 +513,7 @@ const CheckOut = () => {
         {openAccordion === 2 && (
           <div className="p-4 border-t border-gray-300">
             <div>
-              <PaymentCard/>
+              <PaymentCard id={id} Address={Address} />
             </div>
             
             {currentStep === 2 && (
