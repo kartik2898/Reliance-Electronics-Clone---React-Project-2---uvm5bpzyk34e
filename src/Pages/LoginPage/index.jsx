@@ -4,7 +4,8 @@ import { useFormik } from 'formik';
 import { Link, useNavigate } from "react-router-dom";
 import * as yup from 'yup';
 import AuthService from "../../service/AuthService";
-import { UserContext } from "../../contexts/user-context"
+import { UserContext } from "../../contexts/user-context";
+import Footer from "../../components/Footer";
 
 function Login(){
     const validationLoginSchema = yup.object({
@@ -40,7 +41,7 @@ function Login(){
     
 
     return(
-        <div>
+        <div className="mt-[7.9%]">
             <form onSubmit={formik.handleSubmit}>
                 <div className="flex p-8 gap-7">
                     <div className="">
@@ -88,6 +89,9 @@ function Login(){
                     </div>
                 </div>
             </form>
+            <div>
+                <Footer/>
+            </div>
         </div>
     )
 }

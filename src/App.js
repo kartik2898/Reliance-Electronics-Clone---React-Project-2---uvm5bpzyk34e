@@ -20,10 +20,10 @@ function App() {
       <CartContextProvider>
         <WishListContextProvider>
             <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<SignUp />} />
               <Route path="/" element={<Layout />}>
                 <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<SignUp />} />
                 <Route path="/products/c/:sc" element={<ProductsPage />} />
                 <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/cart" element={<ShoppingCard />} />

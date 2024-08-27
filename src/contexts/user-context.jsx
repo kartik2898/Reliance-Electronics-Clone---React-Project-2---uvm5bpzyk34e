@@ -7,7 +7,7 @@ function UserContextProvider({children}){
     const [userDetail, setUserDetail] = useState(getUserDetail());
     
     return(
-        <UserContext.Provider value={{userDetail,setUserDetail}}>
+        <UserContext.Provider value={{userDetail,setUserDetail,getUserDetail}}>
             {children}
         </UserContext.Provider>
     )

@@ -31,8 +31,8 @@ function CartContextProvider({children}){
         })
     }
     const checkProductInCart = (id) => {
-        let itemInCart = cartItems.items.filter(item => item.product._id == id)
-        if(itemInCart.length>0) return true
+        let itemInCart = cartItems?.items?.filter(item => item.product._id == id)
+        if(itemInCart?.length>0) return true
         else return false
     };
     

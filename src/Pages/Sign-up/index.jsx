@@ -2,6 +2,7 @@ import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import AuthService from '../../service/AuthService';
+import Footer from '../../components/Footer';
 function SignUp(){
 
     const navigate = useNavigate();
@@ -39,7 +40,7 @@ function SignUp(){
 
     return(
         <div>
-            <div className="">
+            <div className="mt-[7.9%]">
             <form onSubmit={formik.handleSubmit}>
                 <div className="flex p-8 gap-7 justify-center">
                     <div className="w-3/6 shadow-xl rounded">
@@ -112,7 +113,7 @@ function SignUp(){
             </form>
             </div>
             <div>
-
+            <Footer/>
             </div>
         </div>
     )

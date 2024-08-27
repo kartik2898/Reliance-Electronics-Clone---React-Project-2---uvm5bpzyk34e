@@ -9,6 +9,8 @@ import { CartContext } from "../../contexts/cart-context";
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 import ReactImageMagnify from '@blacklab/react-image-magnify';
+import { UserContext } from "../../contexts/user-context";
+import Footer from "../../components/Footer";
 
 function ProductDetail(){
     const [product, setProduct] = useState([]);
@@ -17,7 +19,8 @@ function ProductDetail(){
     const [itemInCart, setItemInCart] = useState(false);
     const {id} = useParams();
     const navigate = useNavigate();
-    const {addCartItem,cartItems,checkProductInCart} = useContext(CartContext)
+    const {addCartItem,cartItems,checkProductInCart} = useContext(CartContext);
+    const {userDetail}= useContext(UserContext)
     const openModal = () => {
       setIsModalOpen(true);
     };
@@ -45,7 +48,12 @@ function ProductDetail(){
     }
 
     const handleBuyNow =()=>{
+        if(userDetail)
         navigate(`/checkout/${id}`)
+        else{
+            navigate("/login")
+        }
+        
     }
 
     return(<>
@@ -188,6 +196,9 @@ function ProductDetail(){
                         <p className="text-base">({product.name})</p>          
                     </div>
                 </div> */}
+            </div>
+            <div>
+                <Footer/>
             </div>
         </div>
     </>)

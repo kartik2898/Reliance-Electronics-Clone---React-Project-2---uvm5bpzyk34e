@@ -6,6 +6,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Skeleton,{SkeletonTheme} from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import empty from "../../Assets/emptycart.webp"
+import Footer from "../../components/Footer";
 function ProductsPage(){
     const [price,setPrice] = useState(1);
     const [products, setProducts] = useState([]);
@@ -193,6 +194,9 @@ function ProductsPage(){
             </div>
         ))
         } 
+        <div>
+            <Footer/>
+        </div>
     </div>
     )
 }

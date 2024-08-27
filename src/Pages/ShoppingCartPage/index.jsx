@@ -5,10 +5,13 @@ import { WishListContext } from "../../contexts/wishList-context";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { UserContext } from "../../contexts/user-context";
+import Footer from "../../components/Footer";
 function ShoppingCard() {
     const [itemInWishList, setItemInWishList] = useState(false)
     const {cartItems,deleteCartItem,addCartItem} = useContext(CartContext);
-    const {addItemInWishList,checkProductInWishList} = useContext(WishListContext)
+    const {addItemInWishList,checkProductInWishList} = useContext(WishListContext);
+    const {userDetail} = useContext(UserContext);
     const navigate = useNavigate();
 
     // useEffect(()=>{
@@ -16,14 +19,19 @@ function ShoppingCard() {
     // },[itemInWishList])
 
     const moveToWishList = (id) => {
-        debugger
+        // debugger
         setItemInWishList(checkProductInWishList(id))
-        if(checkProductInWishList(id)){
-            toast("already in whishList")
+        if(userDetail){
+            if(checkProductInWishList(id)){
+                toast("already in whishList")
+            }
+            else{
+                addItemInWishList(id)
+                deleteCartItem(id)
+            }
         }
         else{
-            addItemInWishList(id)
-            deleteCartItem(id)
+            navigate("/login");
         }
     }
 
@@ -33,6 +41,15 @@ function ShoppingCard() {
 
     const handleProductId = (id)=>{
         navigate(`/product/${id}`)
+    }
+
+    const handleNavigate = ()=>{
+        if(userDetail){
+            navigate("/Checkout")
+        }
+        else{
+            navigate("/login");
+        }
     }
 
     return (
@@ -86,7 +103,7 @@ function ShoppingCard() {
                     </div>
                     <div className="flex flex-col gap-5 w-3/6  rounded h-fit">
                         <div>
-                            <button type="submit" className="bg-red-600 p-2 rounded text-white w-full" onClick={()=> navigate("/Checkout")}>
+                            <button type="submit" className="bg-red-600 p-2 rounded text-white w-full" onClick={handleNavigate}>
                                 CHECKOUT
                             </button>
                         </div>
@@ -116,6 +133,9 @@ function ShoppingCard() {
                 <Link to={"/"} className="bg-red-600 p-2 rounded text-white">CONTINUE SHOPPING</Link>
             </div>)
             }
+            <div>
+                <Footer/>
+            </div>
         </>
     )
 }

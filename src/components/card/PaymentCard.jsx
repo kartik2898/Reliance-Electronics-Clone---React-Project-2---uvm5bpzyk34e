@@ -1,12 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext,useState } from 'react';
 import paymentImg from "../../Assets/payment_logos_cc.webp";
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import productService from "../../service/ProductService";
 import { CartContext } from "../../contexts/cart-context";
+import { useNavigate } from "react-router-dom";
 
 function PaymentCard({id,Address}) {
     const {cartItems,clearCartItem} = useContext(CartContext);
+    const [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate();
     const validationPaymentCard = yup.object({
         bank: yup.string().required("You have to choose a bank name"),
         cardNumber: yup.string().required("Card number is required").matches(/^\d{16}$/, "Card number should be 16 digits"),
@@ -42,6 +45,11 @@ function PaymentCard({id,Address}) {
         "country": "India",
         "zipCode": Address.Pincode
     }
+    
+      const closeDialog = () => {
+        setIsOpen(false);
+        navigate("/")
+      };
 
     const OrderNow = ()=>{
         const quantity=1;
@@ -56,7 +64,10 @@ function PaymentCard({id,Address}) {
                 })
             ))
             clearCartItem();
-        } 
+        }
+        setTimeout(() => {
+            setIsOpen(true);
+        }, 1000);
     }
 
    
@@ -199,6 +210,20 @@ function PaymentCard({id,Address}) {
                         <button className="px-12 py-1 bg-red-500 text-white" type="submit">Pay</button>
                     </div>
                 </form>
+                {isOpen && (
+                <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
+                    <div className="bg-white p-5 rounded-lg shadow-xl">
+                        <h2 className="text-xl font-bold mb-4">Payment Successful</h2>
+                        <p className="mb-4">Your payment has been processed successfully.</p>
+                        <button 
+                        onClick={closeDialog}
+                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                        >
+                        Close
+                        </button>
+                    </div>
+                </div>
+                )}
             </div>
         </div>
     );

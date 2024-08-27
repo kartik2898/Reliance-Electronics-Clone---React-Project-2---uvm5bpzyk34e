@@ -18,7 +18,7 @@ function classNames(...classes) {
   }
 function Header(){
     const [itemsCategories, setItemsCategories] =useState([]);
-    const {userDetail} = useContext(UserContext);
+    const {userDetail,getUserDetail,setUserDetail} = useContext(UserContext);
     const {cartItems} = useContext(CartContext);
     const navigate = useNavigate();
     const userNavigation = [
@@ -26,6 +26,7 @@ function Header(){
         { name: 'Settings'},
         { name: 'Sign out'},
     ]
+    console.log(userDetail);
     const validationForm = yup.object({
         search:yup.string().trim().required(),
     });
@@ -58,8 +59,13 @@ function Header(){
     }
 
     const handleNavigation = (Name)=>{
+      console.log(Name);
         if(Name == 'Sign out'){
-          navigate('/login');
+          // localStorage.clear();
+          localStorage.removeItem("userDetail");
+          // setUserDetail(null);
+          getUserDetail();
+          navigate('/');
         }
     }
     return(

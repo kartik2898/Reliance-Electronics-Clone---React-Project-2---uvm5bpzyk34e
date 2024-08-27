@@ -6,8 +6,7 @@ import PaymentCard from '../../components/card/PaymentCard';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import productService from "../../service/ProductService";
-
-
+import Footer from "../../components/Footer";
 
 const validationAddress = yup.object({
   Pincode:yup.string().max(6,'Pincode should not be greater than 6').required("pincode is required"),
@@ -96,7 +95,7 @@ const CheckOut = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto px-4 mt-[7.9%] pt-2">
       <div
         className={`border border-gray-300 rounded-md mb-4 ${
           openAccordion === 0 ? 'bg-gray-100' : 'bg-white'
@@ -528,6 +527,9 @@ const CheckOut = () => {
             )}
           </div>
         )}
+      </div>
+      <div>
+        <Footer/>
       </div>
     </div>
   );
